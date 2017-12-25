@@ -5,14 +5,12 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.TextView;
 
 /**
  * Created by osati.m on 12/13/2017.
  */
 
-public class DCTextView extends TextView {
+public class DCTextView extends android.support.v7.widget.AppCompatTextView {
     private static final String TAG = "DCButton";
     public DCTextView(Context context) {
         super(context);
@@ -26,11 +24,6 @@ public class DCTextView extends TextView {
 
     public DCTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        makeCustomFont(context , attrs);
-    }
-
-    public DCTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         makeCustomFont(context , attrs);
     }
 

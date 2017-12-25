@@ -1,52 +1,37 @@
 package com.example.domuscustomview;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Typeface;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.LayoutInflater;
 
 /**
- * Created by osati.m on 12/13/2017.
+ * Created by osati.m on 12/25/2017.
  */
 
-public class DCEditText extends EditText {
-    private static final String TAG = "DCButton";
+public class DCEditText extends LinearLayoutCompat {
     public DCEditText(Context context) {
         super(context);
-        makeCustomFont(context , null);
+        setupView();
     }
 
-    public DCEditText(Context context, AttributeSet attrs) {
+
+
+    public DCEditText(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        makeCustomFont(context , attrs);
+        setupView();
     }
 
-    public DCEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DCEditText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        makeCustomFont(context , attrs);
+        setupView();
     }
 
-    public DCEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        makeCustomFont(context , attrs);
+    private void setupView() {
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        layoutInflater.inflate(R.layout.edit_text_layout,this,true);
+
     }
 
-    public void makeCustomFont(Context context , AttributeSet attrs) {
-        if(attrs!=null){
-            TypedArray typedArray = context.obtainStyledAttributes(attrs , R.styleable.DCView);
-            try {
-                String path =typedArray.getString(R.styleable.DCView_font);
-                Typeface typeface = CashFont.getInstance().getTypeFace(getContext() , path) ;
-                Log.i(TAG, "makeCustomFont: " + typeface);
-                setTypeface(typeface);
-            }finally {
-                invalidate();
-                requestLayout();
-                typedArray.recycle();
-            }
-        }
-    }
 }

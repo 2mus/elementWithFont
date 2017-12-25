@@ -5,14 +5,12 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.CheckBox;
 
 /**
  * Created by osati.m on 12/13/2017.
  */
 
-public class DCCheckBox extends CheckBox {
+public class DCCheckBox extends android.support.v7.widget.AppCompatCheckBox {
     private static final String TAG = "DCButton";
     public DCCheckBox(Context context) {
         super(context);
@@ -26,11 +24,6 @@ public class DCCheckBox extends CheckBox {
 
     public DCCheckBox(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        makeCustomFont(context , attrs);
-    }
-
-    public DCCheckBox(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         makeCustomFont(context , attrs);
     }
 

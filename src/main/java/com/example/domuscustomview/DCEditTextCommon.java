@@ -10,19 +10,19 @@ import android.util.Log;
  * Created by osati.m on 12/13/2017.
  */
 
-public class DCRadioButton extends android.support.v7.widget.AppCompatRadioButton {
+public class DCEditTextCommon extends android.support.v7.widget.AppCompatEditText {
     private static final String TAG = "DCButton";
-    public DCRadioButton(Context context) {
+    public DCEditTextCommon(Context context) {
         super(context);
         makeCustomFont(context , null);
     }
 
-    public DCRadioButton(Context context, AttributeSet attrs) {
+    public DCEditTextCommon(Context context, AttributeSet attrs) {
         super(context, attrs);
         makeCustomFont(context , attrs);
     }
 
-    public DCRadioButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DCEditTextCommon(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         makeCustomFont(context , attrs);
     }
