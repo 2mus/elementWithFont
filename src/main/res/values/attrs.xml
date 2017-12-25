@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DCView" >
-        <attr name="font" format="string">
-
-        </attr>
+        <attr name="font" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="DCEditTextView">
+        <attr name="text" format="string"/>
+        <attr name="text_color" format="color"/>
+        <attr name="font_size" format="dimension"/>
+        <attr name="color_hint" format="color"/>
+        <attr name="color_line" format="color"/>
+        <attr name="hint" format="string"/>
+    </declare-styleable>
 </resources>
