@@ -33,7 +33,7 @@ public class DCButton extends android.support.v7.widget.AppCompatButton {
             try {
                 String path =typedArray.getString(R.styleable.DCView_font);
                 Typeface typeface = CashFont.getInstance().getTypeFace(getContext() , path) ;
-                Log.i(TAG, "makeCustomFont: " + typeface);
+                Log.i(TAG, "makeCustom: " + typeface);
                 setTypeface(typeface);
             }finally {
                 invalidate();

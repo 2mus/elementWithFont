@@ -2,92 +2,145 @@ package com.example.domuscustomview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.LinearLayoutCompat;
+import android.graphics.Typeface;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
+import android.util.Log;
+import android.view.Gravity;
 
 /**
- * Created by osati.m on 12/25/2017.
+ * Created by osati.m on 12/13/2017.
  */
 
-public class DCEditText extends LinearLayoutCompat {
-    private EditText editText;
-    private TextInputLayout textInputLayout;
+public class DCEditText extends android.support.v7.widget.AppCompatEditText {
+    private static final String TAG = "DCEditText";
+
+    private static final int FORMAT_NORMAL = 0;
+    private static final int FORMAT_PERSION = 1;
+    private static final int FORMAT_PERSION_AMOUNT = 2;
+
+    private String beforString = "";
+
+    private int format = 0;
 
     public DCEditText(Context context) {
         super(context);
-        setupView(context, null);
+        makeCustom(context, null);
     }
 
-
-    public DCEditText(Context context, @Nullable AttributeSet attrs) {
+    public DCEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setupView(context, attrs);
+        makeCustom(context, attrs);
     }
 
-    public DCEditText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DCEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setupView(context, attrs);
+        makeCustom(context, attrs);
     }
 
-    private void setupView(Context context, AttributeSet attrs) {
-        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View view = layoutInflater.inflate(R.layout.edit_text_layout, this, true);
-        editText = (EditText) view.findViewById(R.id.editText);
-        textInputLayout = (TextInputLayout) view.findViewById(R.id.text_input_layout);
+    public void makeCustom(Context context, AttributeSet attrs) {
+        this.setGravity(Gravity.RIGHT);
         if (attrs != null) {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DCEditTextView);
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DCView);
             try {
-//                setFont(context, typedArray.getString(R.styleable.DCEditTextView_font));
-                setText(context, typedArray.getString(R.styleable.DCEditTextView_text));
-                setColor(context, typedArray.getColor(R.styleable.DCEditTextView_text_color, getContext().getColor(R.color.white)));
-                setColorHint(context, typedArray.getColor(R.styleable.DCEditTextView_color_hint, getContext().getColor(R.color.white)));
-                setHint(context, typedArray.getString(R.styleable.DCEditTextView_hint));
-                setColorLine(context, typedArray.getColor(
-                        R.styleable.DCEditTextView_color_line, getContext().getColor(R.color.white)));
-                setFontSize(context, typedArray.getDimension(
-                        R.styleable.DCEditTextView_font_size, getContext().getResources().getDimension(R.dimen.default_font_size)));
+                setFont(context, typedArray.getString(R.styleable.DCView_font));
+                persianized(typedArray.getInteger(R.styleable.DCView_number_format, 0));
             } finally {
                 invalidate();
                 requestLayout();
                 typedArray.recycle();
-
             }
         }
-
     }
 
-    private void setFontSize(Context context, float dimension) {
-
+    private void persianized(int format) {
+        this.format = format;
+        switch (this.format) {
+            case FORMAT_PERSION:
+                formatingPersian(FORMAT_PERSION);
+                break;
+            case FORMAT_PERSION_AMOUNT:
+                formatingPersian(FORMAT_PERSION_AMOUNT);
+                break;
+        }
     }
 
-    private void setColorLine(Context context, int color) {
+    private void formatingPersian(final int format) {
+        this.setGravity(Gravity.LEFT);
+        this.setInputType(InputType.TYPE_CLASS_NUMBER);
+        this.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                beforString = s.toString();
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (format == FORMAT_PERSION)
+                    onTextChangedFormatPersian(s.toString());
+                else if (format == FORMAT_PERSION_AMOUNT)
+                    onTextChangedFormatPersianAmount(s.toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
-    private void setHint(Context context, String text) {
-//        editText.setHint(text);
-        textInputLayout.setHint(text);
+    private void onTextChangedFormatPersianAmount(String s) {
+        String tempNumber = Utils.getNumber(s);
+        Log.i(TAG, "onTextChangedFormatPersianAmount tempNumber: " + tempNumber);
+        tempNumber = Utils.trimzero(tempNumber);
+        tempNumber = Utils.separate3(tempNumber);
+        Log.i(TAG, "onTextChangedFormatPersianAmount tempNumber: " + tempNumber);
+        onTextChangedFormatPersian(tempNumber);
     }
 
-    private void setColorHint(Context context, int color) {
 
+    private void onTextChangedFormatPersian(String s) {
+        String persionNumber = Utils.persianString(s);
+        changeText(persionNumber);
     }
 
-    private void setColor(Context context, int color) {
-
+    private void changeText(String text) {
+        if (!text.equals(getText().toString())) {
+            int curserPosition = this.getSelectionStart();
+            if (text.length() != beforString.length())
+                if(text.length()>beforString.length())
+                curserPosition = this.getSelectionStart() + text.length() - beforString.length() - 1;
+                else
+                    curserPosition = this.getSelectionStart() + text.length() - beforString.length() + 1;
+            if (curserPosition < 0)
+                curserPosition = 0;
+            if (curserPosition > text.length())
+                curserPosition = text.length();
+            this.setText(text);
+            this.setSelection(curserPosition);
+        }
     }
 
-    private void setText(Context context, String text) {
-
-    }
 
     private void setFont(Context context, String path) {
-
+        Typeface typeface = CashFont.getInstance().getTypeFace(context, path);
+        setTypeface(typeface);
     }
 
+    public void setNumber(String s) {
+        switch (this.format) {
+            case FORMAT_PERSION:
+                onTextChangedFormatPersian(s);
+                break;
+            case FORMAT_PERSION_AMOUNT:
+                onTextChangedFormatPersianAmount(s);
+                break;
+        }
+    }
+
+    public String getNumberString() {
+        return Utils.englishString(Utils.getNumber(this.getText().toString()));
+    }
 }

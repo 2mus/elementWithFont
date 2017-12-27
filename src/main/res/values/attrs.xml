@@ -2,14 +2,11 @@
 <resources>
     <declare-styleable name="DCView" >
         <attr name="font" format="string"/>
+        <attr name="number_format" format="integer">
+            <enum name="normal" value="0"/>
+            <enum name="normal_number_persian" value="1"/>
+            <enum name="amount_persian" value="2"/>
+        </attr>
     </declare-styleable>
 
-    <declare-styleable name="DCEditTextView">
-        <attr name="text" format="string"/>
-        <attr name="text_color" format="color"/>
-        <attr name="font_size" format="dimension"/>
-        <attr name="color_hint" format="color"/>
-        <attr name="color_line" format="color"/>
-        <attr name="hint" format="string"/>
-    </declare-styleable>
 </resources>
