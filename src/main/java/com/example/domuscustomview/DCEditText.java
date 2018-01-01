@@ -46,7 +46,7 @@ public class DCEditText extends android.support.v7.widget.AppCompatEditText {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DCView);
             try {
                 setFont(context, typedArray.getString(R.styleable.DCView_font));
-                persianized(typedArray.getInteger(R.styleable.DCView_number_format, 0));
+                persianized(typedArray.getInteger(R.styleable.DCView_format, 0));
             } finally {
                 invalidate();
                 requestLayout();
@@ -68,7 +68,6 @@ public class DCEditText extends android.support.v7.widget.AppCompatEditText {
     }
 
     private void formatingPersian(final int format) {
-        this.setGravity(Gravity.LEFT);
         this.setInputType(InputType.TYPE_CLASS_NUMBER);
         this.addTextChangedListener(new TextWatcher() {
             @Override
